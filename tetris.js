@@ -38,6 +38,16 @@ function drawMatrix(matrix, offset) {
     });
 }
 
+function merge(arena, player) {   //copies values from player into arena, places to player in the arena  
+    matrix.forEach((row, y) => {
+        row.forEach((value, x)=> {
+            if(value !== 0) {
+                arena[y + player.pos.y][x + player.pos.x] = value;
+            }
+        });
+    });
+}
+
 function playerDrop() {
     player.pos.y++;
     dropCounter = 0;
@@ -61,8 +71,6 @@ function update(time = 0) {
 }
 
 const arena = createMatrix(12, 20);
-console.log(arena);
-console.table(arena);
 
 const player = {
     pos: {x: 5, y: 5},
