@@ -37,7 +37,7 @@ function createMatrix(w, h) {
 function draw() {
     context.fillStyle = '#000';
     context.fillRect(0, 0, canvas.width, canvas.height);
-    drawMatrix(arena, {x:0, y:0})
+    drawMatrix(arena, {x: 0, y: 0})
     drawMatrix(player.matrix, player.pos);
 }
 
@@ -74,6 +74,13 @@ function playerDrop() {
     dropCounter = 0;
 }
 
+function playerMove(dir) {
+    player.pos.x +=dir;
+    if(collide(arena, player)) {        //checks if player hits the boundary of the arena 
+        player.pos.x -= dir;            //or a piece in the arena
+    }
+}
+
 let dropCounter = 0;
 let dropInterval = 1000;
 
@@ -101,10 +108,10 @@ const player = {
 document.addEventListener('keydown', event => {
     console.log(event);
     if(event.keyCode === 39) {
-        player.pos.x ++;
+        playerMove(1);
     }
     if(event.keyCode === 37) {
-        player.pos.x --;
+        playerMove(-1);
     } 
     if(event.keyCode === 40) {
         playerDrop();
