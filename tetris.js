@@ -208,7 +208,10 @@ function update(time = 0) {
 }
 
 function updateScore() {
-    document.getElementById("score").innerHTML = '<p>' + 'SCORE: ' + player.score + '</p>';
+    document.getElementById("score").innerHTML = 
+    '<p>PLAYER 1</p>' +
+    '<p class="title">TETRIS</p>' +
+    '<p>' + 'SCORE: ' + player.score + '</p>';
 }
 
 const colors = [
