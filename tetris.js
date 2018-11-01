@@ -31,43 +31,43 @@ function createPiece(type) {
             [0, 0, 0],
             [1, 1, 1],
             [0, 1, 0],
-        ]            
-    }else if (type = 'O') {
+        ];            
+    }else if (type === 'O') {
         return [
-            [1, 1],
-            [1, 1],
-        ]
-    }else if (type = 'L') {
+            [2, 2],
+            [2, 2],
+        ];
+    }else if (type === 'L') {
         return [
-            [0, 1, 0],
-            [0, 1, 0],
-            [0, 1, 1],
-        ]
-    }else if (type = 'J') {
+            [0, 3, 0],
+            [0, 3, 0],
+            [0, 3, 3],
+        ];
+    }else if (type === 'J') {
         return [
-            [0, 1, 0],
-            [0, 1, 0],
-            [1, 1, 0],
-        ]
-    }else if (type = 'I') {
+            [0, 4, 0],
+            [0, 4, 0],
+            [4, 4, 0],
+        ];
+    }else if (type === 'I') {
         return [
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-        ]
-    }else if (type = 'S') {
+            [0, 5, 0, 0],
+            [0, 5, 0, 0],
+            [0, 5, 0, 0],
+            [0, 5, 0, 0],
+        ];
+    }else if (type === 'S') {
         return [
-            [0, 1, 1],
-            [1, 1, 0],
+            [0, 6, 6],
+            [6, 6, 0],
             [0, 0, 0],
-        ]
-    }else if (type = 'Z') {
+        ];
+    }else if (type === 'Z') {
         return [
-            [1, 1, 0],
-            [0, 1, 1],
+            [7, 7, 0],
+            [0, 7, 7],
             [0, 0, 0],
-        ]
+        ];
     }
 }
 
@@ -83,7 +83,7 @@ function drawMatrix(matrix, offset) {
     matrix.forEach((row, y) => {
         row.forEach((value, x)=> {
             if(value !== 0) {
-                context.fillStyle = 'red';
+                context.fillStyle = colors[value];
                 context.fillRect(x + offset.x,
                                  y + offset.y,
                                 1, 1);
@@ -93,7 +93,7 @@ function drawMatrix(matrix, offset) {
 }
 
 function merge(arena, player) {   //copies values from player into arena, places to player in the arena  
-    matrix.forEach((row, y) => {
+    player.matrix.forEach((row, y) => {
         row.forEach((value, x)=> {
             if(value !== 0) {
                 arena[y + player.pos.y][x + player.pos.x] = value;
@@ -107,7 +107,7 @@ function playerDrop() {
     if(collide(arena, player)) {
         player.pos.y--;
         merge(arena,player);
-        player.pos.y = 0;
+        playerReset();
     }
     dropCounter = 0;
 }
@@ -116,6 +116,21 @@ function playerMove(dir) {
     player.pos.x +=dir;
     if(collide(arena, player)) {        //checks if player hits the boundary of the arena 
         player.pos.x -= dir;            //or a piece in the arena
+    }
+}
+
+function playerReset() {
+    const pieces = 'ILJOTSZ';
+    console.log(pieces[pieces.length * (Math.random() | 0)]);
+
+    // player.matrix = createPiece(pieces[pieces.length * (Math.random() | 0)]) ;
+    player.matrix = createPiece(pieces[Math.floor(pieces.length * (Math.random()))]) ;
+    player.pos.y = 0;
+    player.pos.x = (arena[0].length / 2 | 0) -
+                    (player.matrix[0].length / 2 | 0);
+    
+    if (collide(arena, player)) {
+        arena.forEach(row => row.fill(0));
     }
 }
 
@@ -170,6 +185,17 @@ function update(time = 0) {
     draw();
     requestAnimationFrame(update);
 }
+
+const colors = [
+    null,
+    '#F44336',
+    '#1dd1a1',
+    '#48dbfb',
+    '#e056fd',
+    '#ff9f43',
+    '#FFEB3B',
+    '#ff9ff3'
+] 
 
 const arena = createMatrix(12, 20);
 
