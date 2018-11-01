@@ -208,7 +208,7 @@ function update(time = 0) {
 }
 
 function updateScore() {
-    document.getElementById("score").innerText = player.score;
+    document.getElementById("score").innerHTML = '<p>' + 'SCORE: ' + player.score + '</p>';
 }
 
 const colors = [
