@@ -191,7 +191,7 @@ function rotate(matrix, dir) {
 }
 
 let dropCounter = 0;
-let dropInterval = 300;
+let dropInterval = 200;
 
 let lastTime = 0;
 function update(time = 0) {
